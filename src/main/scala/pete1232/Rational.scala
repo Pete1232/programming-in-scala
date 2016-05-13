@@ -2,7 +2,6 @@ package pete1232
 
 /**
   * A model of a rational number
-  *
   * @param n a number
   * @param d a non-zero number
   */
@@ -11,7 +10,6 @@ class Rational(n: Int, d: Int) {
 
   def this(n: Int) = this(n, 1)
 
-  //imperative logic to start
   val num: Int = (n*d/d.abs)/gdc(n.abs, d.abs)
   val dom: Int = d.abs/gdc(n.abs, d.abs)
 

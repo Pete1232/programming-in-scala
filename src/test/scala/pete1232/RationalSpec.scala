@@ -4,8 +4,7 @@ import org.scalatest.{FlatSpec, MustMatchers}
 
 class RationalSpec extends FlatSpec with MustMatchers{
 
-  private class TestSetup
-  {
+  private class TestSetup {
     val half = new Rational(1, 2)
     val third = new Rational(1, 3)
     val quarter = new Rational(1, 4)
