@@ -19,7 +19,7 @@ class Rational(n: Int, d: Int) {
 
   def equalsRational(q: Rational): Boolean = num * q.dom == q.num * dom
 
-  override def toString: String = n + "/" + d
+  override def toString: String = num + "/" + dom
 
   private def gdc(x: Int, y: Int): Int = if(y == 0) x else gdc(y, x % y)
 }

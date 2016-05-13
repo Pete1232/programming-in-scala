@@ -19,24 +19,33 @@ class RationalSpec extends FlatSpec with MustMatchers{
     val threeSeventhsMinus = new Rational(3, -7)
     val minusHalfMinus = new Rational(-1, -2)
     val minusThreeSeventhsMinus = new Rational(-3, -7)
+    val noElevenths = new Rational(0, 11)
   }
 
-  "toString" must "return the Rational as an inline fraction" in new TestSetup {
+  "toString" must "return the Rational as an inline fraction in normal form" in new TestSetup {
     half.toString mustBe "1/2"
     third.toString mustBe "1/3"
     quarter.toString mustBe "1/4"
     threeSevenths.toString mustBe "3/7"
     nineElevenths.toString mustBe "9/11"
+    threeSixths.toString mustBe "1/2"
+    minusHalf.toString mustBe "-1/2"
+    halfMinus.toString mustBe "-1/2"
+    minusHalfMinus.toString mustBe "1/2"
+    noElevenths.toString mustBe "0/1"
   }
 
   "constructing a Rational with 0 denominator" must "throw an IllegalArgumentException" in {
-    an [IllegalArgumentException] must be thrownBy new Rational(5, 0)
-    an [IllegalArgumentException] must be thrownBy new Rational(8, 0)
+    an[IllegalArgumentException] must be thrownBy new Rational(5, 0)
+    an[IllegalArgumentException] must be thrownBy new Rational(8, 0)
   }
 
   "add" must "return a new Rational from the current Rational added to the Rational on which add is invoked" in new TestSetup {
     half.add(third).toString mustBe new Rational(5, 6).toString
-    half.add(nineElevenths).toString mustBe new Rational(29, 22).toString
+    third.add(half).toString mustBe new Rational(5, 6).toString
+    minusHalf.add(nineElevenths).toString mustBe new Rational(7, 22).toString
+    third.add(minusHalf).toString mustBe new Rational(-1, 6).toString
+    half.add(minusHalf).toString mustBe new Rational(0, 1).toString
   }
 
   "lessThan" must "return true if the current Rational is smaller than the Rational less than is invoked on" in new TestSetup {
@@ -44,6 +53,8 @@ class RationalSpec extends FlatSpec with MustMatchers{
     quarter.lessThan(third) mustBe true
     threeSevenths.lessThan(threeSixths) mustBe true
     threeSevenths.lessThan(nineElevenths) mustBe true
+    minusHalf.lessThan(half) mustBe true
+
   }
   it must "return false otherwise" in new TestSetup {
     half.lessThan(third) mustBe false
@@ -51,11 +62,13 @@ class RationalSpec extends FlatSpec with MustMatchers{
     threeSixths.lessThan(threeSevenths) mustBe false
     nineElevenths.lessThan(threeSevenths) mustBe false
     half.lessThan(half) mustBe false
+    half.lessThan(minusHalf) mustBe false
   }
 
   "equalsRational" must "return true if two Rationals are equal" in new TestSetup {
     half.equalsRational(half) mustBe true
     half.equalsRational(new Rational(1, 2)) mustBe true
+    minusHalf.equalsRational(minusHalf) mustBe true
   }
   it must "return true if two Rationals are equal in normal form" in new TestSetup {
     half.equalsRational(threeSixths) mustBe true
@@ -68,11 +81,14 @@ class RationalSpec extends FlatSpec with MustMatchers{
     third.equalsRational(quarter) mustBe false
     third.equalsRational(threeSixths) mustBe false
     half.equalsRational(minusHalf) mustBe false
+    minusHalf.equals(half) mustBe false
   }
 
   "invoking Rational with one argument" must "return a Rational with the argument as the numerator" in {
     new Rational(5).equalsRational(new Rational(5, 1)) mustBe true
     new Rational(3).equalsRational(new Rational(3, 1)) mustBe true
+    new Rational(-5).equalsRational(new Rational(-5, 1)) mustBe true
+    new Rational(-5).equalsRational(new Rational(5, -1)) mustBe true
   }
 
   "invoking Rational with a non-normal fraction" must "set num and dom to their normal form" in new TestSetup {
@@ -101,5 +117,9 @@ class RationalSpec extends FlatSpec with MustMatchers{
   it must "set num to be positive if n is negative" in new TestSetup {
     minusHalfMinus.num mustBe 1
     minusThreeSeventhsMinus.num mustBe 3
+  }
+
+  "invoking Rational on a number with 0 numerator" must "set dom to 1" in new TestSetup {
+    noElevenths.dom mustBe 1
   }
 }
