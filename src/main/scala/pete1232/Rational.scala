@@ -13,9 +13,11 @@ class Rational(n: Int, d: Int) {
   val num: Int = (n*d/d.abs)/gdc(n.abs, d.abs)
   val dom: Int = d.abs/gdc(n.abs, d.abs)
 
-  def add(q: Rational): Rational = new Rational(n * q.dom + q.num * d, d * q.dom)
+  def +(q: Rational): Rational = new Rational(num * q.dom + q.num * dom, dom * q.dom)
 
-  def lessThan(q: Rational): Boolean = n * q.dom < q.num * d
+  def *(q: Rational): Rational = new Rational(num * q.num, dom * q.dom)
+
+  def lessThan(q: Rational): Boolean = num * q.dom < q.num * dom
 
   def equalsRational(q: Rational): Boolean = num * q.dom == q.num * dom
 

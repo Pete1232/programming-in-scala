@@ -40,15 +40,15 @@ class RationalSpec extends FlatSpec with MustMatchers{
     an[IllegalArgumentException] must be thrownBy new Rational(8, 0)
   }
 
-  "add" must "return a new Rational from the current Rational added to the Rational on which add is invoked" in new TestSetup {
-    half.add(third).toString mustBe new Rational(5, 6).toString
-    third.add(half).toString mustBe new Rational(5, 6).toString
-    minusHalf.add(nineElevenths).toString mustBe new Rational(7, 22).toString
-    third.add(minusHalf).toString mustBe new Rational(-1, 6).toString
-    half.add(minusHalf).toString mustBe new Rational(0, 1).toString
+  "+" must "return a new Rational from the current Rational added to the Rational on which + is invoked" in new TestSetup {
+    (half + third).toString mustBe new Rational(5, 6).toString
+    (third + half).toString mustBe new Rational(5, 6).toString
+    (minusHalf + nineElevenths).toString mustBe new Rational(7, 22).toString
+    (third + minusHalf).toString mustBe new Rational(-1, 6).toString
+    (half + minusHalf).toString mustBe new Rational(0, 1).toString
   }
 
-  "lessThan" must "return true if the current Rational is smaller than the Rational less than is invoked on" in new TestSetup {
+  "lessThan" must "return true if the current Rational is smaller than the Rational lessThan is invoked on" in new TestSetup {
     third.lessThan(half) mustBe true
     quarter.lessThan(third) mustBe true
     threeSevenths.lessThan(threeSixths) mustBe true
@@ -121,5 +121,12 @@ class RationalSpec extends FlatSpec with MustMatchers{
 
   "invoking Rational on a number with 0 numerator" must "set dom to 1" in new TestSetup {
     noElevenths.dom mustBe 1
+  }
+
+  "*" must "return a new Rational from the current Rational multiplied by the Rational on which * is invoked" in new TestSetup {
+    (half * third).toString mustBe new Rational(1, 6).toString
+    (third * half).toString mustBe new Rational(1, 6).toString
+    (minusHalf * half).toString mustBe new Rational(-1, 4).toString
+    (minusHalf * minusHalf).toString mustBe new Rational(1, 4).toString
   }
 }
