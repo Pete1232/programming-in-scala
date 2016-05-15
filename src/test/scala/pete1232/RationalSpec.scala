@@ -5,7 +5,6 @@ import org.scalatest.{FlatSpec, MustMatchers}
 class RationalSpec extends FlatSpec with MustMatchers {
 
   private class TestSetup{
-    import pete1232.Rational
     val half = new Rational(1, 2)
     val third = new Rational(1, 3)
     val quarter = new Rational(1, 4)
@@ -165,14 +164,16 @@ class RationalSpec extends FlatSpec with MustMatchers {
   }
 
   "sum" must "return the sum of a collection of Rationals" in new TestSetup {
-    Rational.sum(half).toString mustBe half.toString
-    Rational.sum(half, third, quarter).toString mustBe new Rational(13, 12).toString
-    Rational.sum(List(half, third, quarter): _*).toString mustBe new Rational(13, 12).toString
+    import Rational.sum
+    sum(half).toString mustBe half.toString
+    sum(half, third, quarter).toString mustBe new Rational(13, 12).toString
+    sum(List(half, third, quarter): _*).toString mustBe new Rational(13, 12).toString
   }
 
   "average" must "return the mean of a collection of Rationals" in new TestSetup {
-    Rational.average(half).toString mustBe half.toString
-    Rational.average(half, third, quarter).toString mustBe new Rational(13, 36).toString
-    Rational.average(List(half, third, quarter): _*).toString mustBe new Rational(13, 36).toString
+    import Rational.average
+    average(half).toString mustBe half.toString
+    average(half, third, quarter).toString mustBe new Rational(13, 36).toString
+    average(List(half, third, quarter): _*).toString mustBe new Rational(13, 36).toString
   }
 }
