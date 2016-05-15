@@ -6,10 +6,10 @@ object Rational {
   }
   def sum(q: Rational*): Rational = {
     def total(q: Seq[Rational], value: Rational = new Rational(0)): Rational ={
-      if(!q.isEmpty)
-        total(q.tail, value + q.head)
-      else
+      if(q.isEmpty)
         value
+      else
+        total(q.tail, value + q.head)
     }
     total(q)
   }
