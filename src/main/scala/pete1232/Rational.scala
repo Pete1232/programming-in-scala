@@ -15,11 +15,19 @@ class Rational(n: Int, d: Int) {
 
   def +(q: Rational): Rational = new Rational(num * q.dom + q.num * dom, dom * q.dom)
 
+  def +(i: Int): Rational = new Rational(num + i*dom, dom)
+
   def -(q: Rational): Rational = this + new Rational(-q.num, q.dom)
+
+  def -(i: Int): Rational = this + -i
 
   def *(q: Rational): Rational = new Rational(num * q.num, dom * q.dom)
 
+  def *(i: Int): Rational = new Rational(num * i, dom)
+
   def /(q: Rational): Rational = this * new Rational(q.dom, q.num)
+
+  def /(i: Int): Rational = new Rational(num, dom * i)
 
   def lessThan(q: Rational): Boolean = num * q.dom < q.num * dom
 

@@ -116,29 +116,50 @@ class RationalSpec extends FlatSpec with MustMatchers {
   }
 
   "(+)" must "add this to another Rational" in new TestSetup {
-    (half + third).toString mustBe new Rational(5, 6).toString
-    (third + half).toString mustBe new Rational(5, 6).toString
-    (minusHalf + nineElevenths).toString mustBe new Rational(7, 22).toString
-    (third + minusHalf).toString mustBe new Rational(-1, 6).toString
-    (half + minusHalf).toString mustBe new Rational(0, 1).toString
+    (half + third).equalsRational(new Rational(5, 6)) mustBe true
+    (third + half).equalsRational(new Rational(5, 6)) mustBe true
+    (minusHalf + nineElevenths).equalsRational(new Rational(7, 22)) mustBe true
+    (third + minusHalf).equalsRational(new Rational(-1, 6)) mustBe true
+    (half + minusHalf).equalsRational(new Rational(0, 1)) mustBe true
+  }
+  it must "add this to an Int" in new TestSetup {
+    (half + 1).equalsRational(new Rational(3, 2)) mustBe true
+    (minusHalf + 1).equalsRational(new Rational(1, 2)) mustBe true
+    (minusHalf + -1).equalsRational(new Rational(-3, 2)) mustBe true
   }
 
   "(*)" must "multiply this by another Rational" in new TestSetup {
-    (half * third).toString mustBe new Rational(1, 6).toString
-    (third * half).toString mustBe new Rational(1, 6).toString
-    (minusHalf * half).toString mustBe new Rational(-1, 4).toString
-    (minusHalf * minusHalf).toString mustBe new Rational(1, 4).toString
+    (half * third).equalsRational(new Rational(1, 6)) mustBe true
+    (third * half).equalsRational(new Rational(1, 6)) mustBe true
+    (minusHalf * half).equalsRational(new Rational(-1, 4)) mustBe true
+    (minusHalf * minusHalf).equalsRational(new Rational(1, 4)) mustBe true
+  }
+  it must "multiply this by an Int" in new TestSetup {
+    (half * 2).equalsRational(new Rational(1, 1)) mustBe true
+    (minusHalf * 2).equalsRational(new Rational(-1, 1)) mustBe true
+    (minusHalf * -2).equalsRational(new Rational(1, 1)) mustBe true
   }
 
   "(/)" must "divide this by another Rational" in new TestSetup {
-    (half/third).toString mustBe new Rational(3, 2).toString
-    (minusHalf/third).toString mustBe new Rational(-3, 2).toString
-    (minusHalf/minusHalf).toString mustBe new Rational(1).toString
+    (half / third).equalsRational(new Rational(3, 2)) mustBe true
+    (minusHalf / third).equalsRational(new Rational(-3, 2)) mustBe true
+    (minusHalf / minusHalf).equalsRational(new Rational(1)) mustBe true
+  }
+  it must "divide this by an Int" in new TestSetup {
+    (half / 2).equalsRational(new Rational(1, 4)) mustBe true
+    (minusHalf / 2).equalsRational(new Rational(-1, 4)) mustBe true
+    (minusHalf / -2).equalsRational(new Rational(1, 4)) mustBe true
+    (half / half).equalsRational(new Rational(1, 1)) mustBe true
   }
 
   "(-)" must "subtract another Rational from this" in new TestSetup {
-    (half-third).toString mustBe new Rational(1, 6).toString
-    (minusHalf-third).toString mustBe new Rational(-5, 6).toString
-    (minusHalf-minusHalf).toString mustBe new Rational(0).toString
+    (half - third).equalsRational(new Rational(1, 6)) mustBe true
+    (minusHalf - third).equalsRational(new Rational(-5, 6)) mustBe true
+    (minusHalf - minusHalf).equalsRational(new Rational(0)) mustBe true
+  }
+  it must "subtract an Int from this" in new TestSetup {
+    (half - 1).equalsRational(new Rational(-1, 2)) mustBe true
+    (minusHalf - 1).equalsRational(new Rational(-3, 2)) mustBe true
+    (minusHalf - -1).equalsRational(new Rational(1, 2)) mustBe true
   }
 }
