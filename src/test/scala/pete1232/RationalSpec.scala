@@ -2,7 +2,7 @@ package pete1232
 
 import org.scalatest.{FlatSpec, MustMatchers}
 
-class RationalSpec extends FlatSpec with MustMatchers{
+class RationalSpec extends FlatSpec with MustMatchers {
 
   private class TestSetup {
     val half = new Rational(1, 2)
@@ -40,15 +40,7 @@ class RationalSpec extends FlatSpec with MustMatchers{
     an[IllegalArgumentException] must be thrownBy new Rational(8, 0)
   }
 
-  "+" must "return a new Rational from the current Rational added to the Rational on which + is invoked" in new TestSetup {
-    (half + third).toString mustBe new Rational(5, 6).toString
-    (third + half).toString mustBe new Rational(5, 6).toString
-    (minusHalf + nineElevenths).toString mustBe new Rational(7, 22).toString
-    (third + minusHalf).toString mustBe new Rational(-1, 6).toString
-    (half + minusHalf).toString mustBe new Rational(0, 1).toString
-  }
-
-  "lessThan" must "return true if the current Rational is smaller than the Rational lessThan is invoked on" in new TestSetup {
+  "lessThan" must "return true if this is smaller than the given Rational" in new TestSetup {
     third.lessThan(half) mustBe true
     quarter.lessThan(third) mustBe true
     threeSevenths.lessThan(threeSixths) mustBe true
@@ -65,18 +57,18 @@ class RationalSpec extends FlatSpec with MustMatchers{
     half.lessThan(minusHalf) mustBe false
   }
 
-  "equalsRational" must "return true if two Rationals are equal" in new TestSetup {
+  "equalsRational" must "return true if this is equal to the given Rational" in new TestSetup {
     half.equalsRational(half) mustBe true
     half.equalsRational(new Rational(1, 2)) mustBe true
     minusHalf.equalsRational(minusHalf) mustBe true
   }
-  it must "return true if two Rationals are equal in normal form" in new TestSetup {
+  it must "return true if this is equal to the given Rational when normalized" in new TestSetup {
     half.equalsRational(threeSixths) mustBe true
     threeSixths.equalsRational(half) mustBe true
     minusHalf.equalsRational(minusThreeSixths) mustBe true
-    minusThreeSixths.equalsRational(minusHalf) mustBe  true
+    minusThreeSixths.equalsRational(minusHalf) mustBe true
   }
-  it must "reuturn false otherwise" in new TestSetup {
+  it must "return false otherwise" in new TestSetup {
     half.equalsRational(third) mustBe false
     third.equalsRational(quarter) mustBe false
     third.equalsRational(threeSixths) mustBe false
@@ -84,7 +76,7 @@ class RationalSpec extends FlatSpec with MustMatchers{
     minusHalf.equals(half) mustBe false
   }
 
-  "invoking Rational with one argument" must "return a Rational with the argument as the numerator" in {
+  "invoking Rational with one argument" must "return the given Int as a Rational" in {
     new Rational(5).equalsRational(new Rational(5, 1)) mustBe true
     new Rational(3).equalsRational(new Rational(3, 1)) mustBe true
     new Rational(-5).equalsRational(new Rational(-5, 1)) mustBe true
@@ -123,10 +115,30 @@ class RationalSpec extends FlatSpec with MustMatchers{
     noElevenths.dom mustBe 1
   }
 
-  "*" must "return a new Rational from the current Rational multiplied by the Rational on which * is invoked" in new TestSetup {
+  "(+)" must "add this to another Rational" in new TestSetup {
+    (half + third).toString mustBe new Rational(5, 6).toString
+    (third + half).toString mustBe new Rational(5, 6).toString
+    (minusHalf + nineElevenths).toString mustBe new Rational(7, 22).toString
+    (third + minusHalf).toString mustBe new Rational(-1, 6).toString
+    (half + minusHalf).toString mustBe new Rational(0, 1).toString
+  }
+
+  "(*)" must "multiply this by another Rational" in new TestSetup {
     (half * third).toString mustBe new Rational(1, 6).toString
     (third * half).toString mustBe new Rational(1, 6).toString
     (minusHalf * half).toString mustBe new Rational(-1, 4).toString
     (minusHalf * minusHalf).toString mustBe new Rational(1, 4).toString
+  }
+
+  "(/)" must "divide this by another Rational" in new TestSetup {
+    (half/third).toString mustBe new Rational(3, 2).toString
+    (minusHalf/third).toString mustBe new Rational(-3, 2).toString
+    (minusHalf/minusHalf).toString mustBe new Rational(1).toString
+  }
+
+  "(-)" must "subtract another Rational from this" in new TestSetup {
+    (half-third).toString mustBe new Rational(1, 6).toString
+    (minusHalf-third).toString mustBe new Rational(-5, 6).toString
+    (minusHalf-minusHalf).toString mustBe new Rational(0).toString
   }
 }
