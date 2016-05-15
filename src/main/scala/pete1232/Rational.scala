@@ -1,15 +1,17 @@
 package pete1232
 
 object Rational {
+  /*TODO implment an implicit Numeric type for Rational
+   * These act as a replacement for equivalent methods in scala.util.List that
+   * expect an implicit Numeric type. In future a Numeric (Functional) type should
+   * be made for Rational to implement these methods properly.
+   */
   def average(q: Rational*): Rational = {
     sum(q: _*) / q.size
   }
   def sum(q: Rational*): Rational = {
     def total(q: Seq[Rational], value: Rational = new Rational(0)): Rational ={
-      if(q.isEmpty)
-        value
-      else
-        total(q.tail, value + q.head)
+      if(q.isEmpty) value else total(q.tail, value + q.head)
     }
     total(q)
   }
@@ -46,6 +48,10 @@ class Rational(n: Int, d: Int) {
 
   def lessThan(q: Rational): Boolean = num * q.dom < q.num * dom
 
+  /* TODO override standard equality methods
+   * Eventually Rational will extend AnyVal and override the default ==
+   * and != methods
+   */
   def equalsRational(q: Rational): Boolean = num * q.dom == q.num * dom
 
   override def toString: String = num + "/" + dom
