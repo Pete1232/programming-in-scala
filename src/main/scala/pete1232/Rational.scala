@@ -1,5 +1,20 @@
 package pete1232
 
+object Rational {
+  def average(q: Rational*): Rational = {
+    sum(q: _*) / q.size
+  }
+  def sum(q: Rational*): Rational = {
+    def total(q: Seq[Rational], value: Rational = new Rational(0)): Rational ={
+      if(!q.isEmpty)
+        total(q.tail, value + q.head)
+      else
+        value
+    }
+    total(q)
+  }
+}
+
 /**
   * A model of a rational number
   * @param n a number
