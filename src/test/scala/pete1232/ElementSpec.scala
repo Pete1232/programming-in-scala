@@ -1,7 +1,7 @@
 package pete1232
 
 import org.scalatest.{FlatSpec, MustMatchers}
-import Element.elem
+import pete1232.Element.elem
 
 class ElementSpec extends FlatSpec with MustMatchers{
 
@@ -22,9 +22,22 @@ class ElementSpec extends FlatSpec with MustMatchers{
   }
   "above" must "compose two Elements" in new TestElement(contents) {
     above(new TestElement(contents)).contents mustBe new TestElement(contents ++ contents).contents
+    above(new TestElement(contents :+ "Apple")).contents mustBe new TestElement(Array("Hello", "World", "Hello", "World", "Apple")).contents
+    above(new TestElement(Array("Apples"))).contents mustBe new TestElement(Array("Hello ", "World ", "Apples")).contents
   }
-  "below" must "concatenate the contents of two Elements" in new TestElement(contents) {
+  "beside" must "concatenate the contents of two Elements" in new TestElement(contents) {
     beside(new TestElement(contents)).contents mustBe new TestElement(Array("HelloHello", "WorldWorld")).contents
+    beside(new TestElement(contents :+ "Apple")).contents mustBe new TestElement(Array("HelloHello", "WorldWorld", "     Apple")).contents
+    beside(new TestElement(Array("Apple"))).contents mustBe new TestElement(Array("HelloApple", "World     ")).contents
+  }
+  "heighten" must "extend contents to the given height" in new TestElement(contents) {
+    heighten(7).contents.length mustBe 7
+    heighten(7).contents.contains("Hello") mustBe true
+    heighten(7).contents.contains("World") mustBe true
+  }
+  "widen" must "widen elements of contents by padding" in new TestElement(contents) {
+    widen(7).contents.forall(_.length == 7) mustBe true
+    (for((one, two) <- widen(7).contents zip this.contents) yield one.contains(two)).contains(false) mustBe false
   }
   "toString" must "return each line of contents seperated by a new line operator" in new TestElement(contents) {
     toString mustBe "Hello\nWorld"
@@ -32,14 +45,12 @@ class ElementSpec extends FlatSpec with MustMatchers{
 }
 
 class ArrayElementSpec extends FlatSpec with MustMatchers {
-
   val contents = Array("Hello", "World")
   val badContents = Array("Hello", ", ", "World", "!")
-
   "ArrayElement" must "requre every element to have the same length" in {
     an [IllegalArgumentException] must be thrownBy elem(badContents)
   }
-  "calling contents" must "not allow the user to modify the array" in {
+  "contents" must "not allow the user to modify the array" in {
     val element = elem(contents)
     element.contents.update(0, "Apple")
     element.contents.apply(0) mustBe "Hello"
@@ -47,9 +58,7 @@ class ArrayElementSpec extends FlatSpec with MustMatchers {
 }
 
 class LineElementSpec extends FlatSpec with MustMatchers {
-
   val content = "Hello"
-
   "height" must "return 1" in {
     elem(content).height mustBe 1
   }
@@ -59,11 +68,13 @@ class LineElementSpec extends FlatSpec with MustMatchers {
 }
 
 class UniformElementSpec extends FlatSpec with MustMatchers {
-
   val content = 'I'
   val height = 3
   val width = 7
-
+  "UniformElement" must "require height and width to be positive" in {
+    an [IllegalArgumentException] must be thrownBy elem(content, height, -1)
+    an [IllegalArgumentException] must be thrownBy elem(content, -1, width)
+  }
   "contents" must "return an array of the given height" in {
     elem(content, height, width).contents.length mustBe 3
   }
@@ -80,9 +91,5 @@ class UniformElementSpec extends FlatSpec with MustMatchers {
   }
   it must "return an Array of empty strings if width is 0" in {
     elem(content, height, 0).contents mustBe Array("", "", "")
-  }
-  it must "require height and width to be positive" in {
-    an [IllegalArgumentException] must be thrownBy elem(content, height, -1)
-    an [IllegalArgumentException] must be thrownBy elem(content, -1, width)
   }
 }
