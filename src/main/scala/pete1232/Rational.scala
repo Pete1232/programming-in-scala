@@ -46,7 +46,13 @@ class Rational(n: Int, d: Int) {
 
   def /(i: Int): Rational = new Rational(num, dom * i)
 
-  def lessThan(q: Rational): Boolean = num * q.dom < q.num * dom
+  def <(q: Rational): Boolean = num * q.dom < q.num * dom
+
+  def <=(q: Rational): Boolean = (this < q) || (this equalsRational q)
+
+  def >(q: Rational): Boolean = !(this < q) && !(this equalsRational q)
+
+  def >=(q: Rational): Boolean = (this > q) || (this equalsRational q)
 
   /* TODO override standard equality methods
    * Eventually Rational will extend AnyVal and override the default ==
