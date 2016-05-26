@@ -40,66 +40,19 @@ class RationalSpec extends FlatSpec with MustMatchers {
     an[IllegalArgumentException] must be thrownBy new Rational(8, 0)
   }
 
-  "<" must "return true if this is smaller than the given Rational" in new TestSetup {
-    third < half mustBe true
-    quarter < third mustBe true
-    threeSevenths < threeSixths mustBe true
-    threeSevenths < nineElevenths mustBe true
-    minusHalf < half mustBe true
-
+  "compare" must "return 0 if the receiver equals the parameter" in new TestSetup {
+    half compare half mustBe 0
+    minusHalf compare minusHalf mustBe 0
   }
-  it must "return false otherwise" in new TestSetup {
-    half<(third) mustBe false
-    third<(quarter) mustBe false
-    threeSixths<(threeSevenths) mustBe false
-    nineElevenths<(threeSevenths) mustBe false
-    half<(minusHalf) mustBe false
-    half<half mustBe false
+  it must "return < 0 if the receiver is < the parameter" in new TestSetup {
+    half compare third must be > 0
+    half compare minusHalf must be > 0
+    minusThreeNinths compare minusHalf must be > 0
   }
-
-  "<=" must "return true if this is smaller than the given Rational" in new TestSetup {
-    third <= half mustBe true
-    quarter <= third mustBe true
-    threeSevenths <= threeSixths mustBe true
-    threeSevenths <= nineElevenths mustBe true
-    minusHalf <= half mustBe true
-
-  }
-  it must "return true if this equals that" in new TestSetup {
-    half<=half mustBe true
-    minusHalf<=minusHalf mustBe true
-  }
-  it must "return false otherwise" in new TestSetup {
-    half<=(third) mustBe false
-    third<=(quarter) mustBe false
-    threeSixths<=(threeSevenths) mustBe false
-    nineElevenths<=(threeSevenths) mustBe false
-    half<=(minusHalf) mustBe false
-  }
-  ">" must "return true is this is bigger than that" in new TestSetup {
-    half > third mustBe true
-    half > minusHalf mustBe true
-    minusThreeNinths > minusHalf mustBe true
-  }
-  it must "return false otherwise" in new TestSetup {
-    third > half mustBe false
-    minusHalf > half mustBe false
-    minusHalf > minusThreeNinths mustBe false
-    half > half mustBe false
-  }
-  ">=" must "return true is this is bigger than that" in new TestSetup {
-    half >= third mustBe true
-    half >= minusHalf mustBe true
-    minusThreeNinths >= minusHalf mustBe true
-  }
-  it must "return true if this equals that" in new TestSetup {
-    half >= half mustBe true
-    minusHalf >= minusHalf mustBe true
-  }
-  it must "return false otherwise" in new TestSetup {
-    third >= half mustBe false
-    minusHalf >= half mustBe false
-    minusHalf >= minusThreeNinths mustBe false
+  it must "return > 0 otherwise" in new TestSetup {
+    third compare half must be < 0
+    minusHalf compare half must be < 0
+    minusHalf compare minusThreeNinths must be < 0
   }
 
   "equalsRational" must "return true if this is equal to the given Rational" in new TestSetup {

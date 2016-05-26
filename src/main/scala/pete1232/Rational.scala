@@ -22,7 +22,7 @@ object Rational {
   * @param n a number
   * @param d a non-zero number
   */
-class Rational(n: Int, d: Int) {
+class Rational(n: Int, d: Int) extends Ordered[Rational] {
   require(d != 0)
 
   def this(n: Int) = this(n, 1)
@@ -46,19 +46,13 @@ class Rational(n: Int, d: Int) {
 
   def /(i: Int): Rational = new Rational(num, dom * i)
 
-  def <(q: Rational): Boolean = num * q.dom < q.num * dom
-
-  def <=(q: Rational): Boolean = (this < q) || (this equalsRational q)
-
-  def >(q: Rational): Boolean = num * q.dom > q.num * dom
-
-  def >=(q: Rational): Boolean = (this > q) || (this equalsRational q)
+  def compare(q: Rational): Int = num * q.dom - q.num * dom
 
   /* TODO override standard equality methods
    * Eventually Rational will extend AnyVal and override the default ==
    * and != methods
    */
-  def equalsRational(q: Rational): Boolean = num * q.dom == q.num * dom
+  def equalsRational(q: Rational): Boolean = (this compare q) == 0
 
   override def toString: String = num + "/" + dom
 
