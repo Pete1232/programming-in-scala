@@ -50,7 +50,7 @@ class Rational(n: Int, d: Int) {
 
   def <=(q: Rational): Boolean = (this < q) || (this equalsRational q)
 
-  def >(q: Rational): Boolean = !(this < q) && !(this equalsRational q)
+  def >(q: Rational): Boolean = num * q.dom > q.num * dom
 
   def >=(q: Rational): Boolean = (this > q) || (this equalsRational q)
 
